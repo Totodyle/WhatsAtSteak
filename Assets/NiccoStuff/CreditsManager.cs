@@ -1,22 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CreditsManager : MonoBehaviour {
-
+public class CreditsManager : MonoBehaviour
+{
 	private string[] m_creditsStrings;
 
 	private int m_currentStringIdx;
 
 	private Text m_creditsText;
 
-	// Use this for initialization
-	void Start () {
-
+	private void Start()
+    {
 		m_currentStringIdx = 0;
 
-		m_creditsStrings = new string[] {
+		m_creditsStrings = new string[] 
+        {
 			"What's At Steak\n\nby\nSecret Steak",
 			"Art and Design\n\nCherish Socro",
 			"Developers\n\nDyle Ouano\nNiccolo Manahan",
@@ -43,9 +44,12 @@ public class CreditsManager : MonoBehaviour {
 		}
 		yield return null;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    private void Update()
+    {
+        if (Input.anyKey)
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+    }
 }

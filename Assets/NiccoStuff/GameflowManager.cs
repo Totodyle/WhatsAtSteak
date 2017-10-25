@@ -80,7 +80,7 @@ public class GameflowManager : MonoBehaviour
 					
 	}
 
-	private void Start ()
+	private void Start()
     {
 
 		//We start the game at a cutscene
@@ -124,7 +124,7 @@ public class GameflowManager : MonoBehaviour
         Invoke("TriggerDialogue", 0.5f);
     }
 
-	void TriggerDialogue()
+    private void TriggerDialogue()
 	{
         CameraEffects.instance.ToggleVignette();
 
@@ -158,14 +158,14 @@ public class GameflowManager : MonoBehaviour
 		InvokeRepeating("SpawnEnemy", 0f, m_currentSpawnInterval);
 	}
 
-	void SpawnEnemy()
+    private void SpawnEnemy()
 	{
         EnemyObjectPool.Instance.SpawnFromPool();
 
         m_activeEnemyCount++;
 	}
 
-	void EndWave()
+    private void EndWave()
 	{
 		//Stop spawning enemies
 		CancelInvoke("SpawnEnemy");
@@ -203,7 +203,7 @@ public class GameflowManager : MonoBehaviour
         }
 	}
 
-	void CutsceneUpdate()
+    private void CutsceneUpdate()
 	{
 		/*
 		 * Ideally, we add to the condition if all the respective dialogue has been displayed.
@@ -221,7 +221,7 @@ public class GameflowManager : MonoBehaviour
 		//}
 	}
 
-    void TriggerWindowSpeach()
+    private void TriggerWindowSpeach()
     {
         ToggleWurst(true);
         DelayAction(()=> 
@@ -234,9 +234,9 @@ public class GameflowManager : MonoBehaviour
     }
 
 
-    void TriggerEnding(bool p_bIsBad)
+    private void TriggerEnding(bool p_bIsBad)
 	{
-		Debug.Log("Ending trigger!");
+		//Debug.Log("Ending trigger!");
         SceneManager.LoadScene("Credits");
 	}
 
@@ -245,7 +245,7 @@ public class GameflowManager : MonoBehaviour
         m_activeEnemyCount--;
     }
 
-	void ActiveUpdate()
+    private void ActiveUpdate()
 	{
 		//Constantly check if enemies are gone to end wave
 		if(bIsOvertime && m_activeEnemyCount <= 0)
@@ -255,16 +255,20 @@ public class GameflowManager : MonoBehaviour
 		}
 	}
 
-	void GameOverUpdate()
+    private void GameOverUpdate()
 	{
 		
 	}
 	
-	// Update is called once per frame
-	void Update ()
+	private void Update()
     {
 		m_updateDictionary[m_currentGameState]();
-	}
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+    }
 
     public void DelayAction(Action p_action, float m_delay)
     {
@@ -300,7 +304,6 @@ public class GameflowManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("sdfa1");
             iTween.MoveTo(m_bb, iTween.Hash("x", m_bbHidePosRef.position.x, "y", m_bbHidePosRef.position.y, "time", m_bbShowHideTime, "easeType", iTween.EaseType.easeOutQuad));
             iTween.ValueTo(m_bb, iTween.Hash("from", 1.0f, "to", 0.0f, "time", m_bbShowHideTime, "easeType", iTween.EaseType.easeOutQuad, "onupdatetarget", this.gameObject, "onupdate", "SetBBAlpha"));
             DelayAction(() => { m_openDoor.SetActive(false); }, m_bbShowHideTime);
